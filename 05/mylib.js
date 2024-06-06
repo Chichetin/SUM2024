@@ -46,7 +46,7 @@ export function initGL() {
         x = perx;
         n = n + 1.0;
     }
-    OutColor = vec4(n / 255.0, n / 200.0 , n / 255.0 , 1);
+    OutColor = vec4(n / 255.0, n / 100.0 , n / 155.0 , 1);
   }
   `;
   let
