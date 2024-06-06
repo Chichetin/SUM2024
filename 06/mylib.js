@@ -1,7 +1,11 @@
 let
   canvas,
   gl,
-  timeLoc;    
+  timeLoc,
+  mxLoc,
+  myLoc,
+  mx = 0,
+  my = 0;    
 
 // OpenGL initialization function  
 export function initGL() {
@@ -17,12 +21,21 @@ export function initGL() {
     
   out vec2 DrawPos;
   uniform float Time;
+  uniform float mx, my;
 
   void main( void )
   {
     gl_Position = vec4(InPosition, 1);
+    float x = InPosition.x;
+    float y = InPosition.y;
+
     gl_Position.x += 0.1 * sin(Time);
-    DrawPos = InPosition.xy;
+    //if ((mx - x) * (mx - x) + (my - y) * (my - y) < 0.5){
+      //x = (x + mx) / 4.0;
+     // y = (y + my) / 4.0;
+   // }
+    
+    DrawPos = vec2(x, y);
   }
   `;
   let fs_txt =
@@ -32,17 +45,18 @@ export function initGL() {
   
   in vec2 DrawPos;
   uniform float Time;
+  uniform float mx, my;
 
   void main( void )
   {
-    float x = DrawPos.x * 0.8;
-    float y = DrawPos.y * 0.9;
+    float x = DrawPos.x * 2.8;
+    float y = DrawPos.y * 2.9;
     float perx;
     float n = 1.0;
     while (sqrt(x * x + y * y) < 2.0 && n < 255.0)
     {
-        perx = x * x - y * y + 0.37 + 0.10 * cos(Time * 0.6) * sin(Time * 0.2);
-        y = 2.0 * x * y + 0.30 + 0.8 * sin(Time * 0.4) * sin(Time * 0.5);
+        perx = x * x - y * y + 0.37 + my * 0.10 * cos(Time * 0.6) * sin(Time * 0.2);
+        y = 2.0 * x * y + 0.30 + mx * 0.8 * sin(Time * 0.4) * sin(Time * 0.5);
         x = perx;
         n = n + 1.0;
     }
@@ -77,6 +91,9 @@ export function initGL() {
 
   // Uniform data
   timeLoc = gl.getUniformLocation(prg, "Time");
+  mxLoc = gl.getUniformLocation(prg, "mx");
+  myLoc = gl.getUniformLocation(prg, "my");
+
 
   gl.useProgram(prg);
 }  // End of 'initGL' function               
@@ -98,8 +115,7 @@ let x = 1;
 // Main render frame function
 export function render() {
   // console.log(`Frame ${x++}`);
-  gl.clear(gl.COLOR_BUFFER_BIT);
-                                               
+  gl.clear(gl.COLOR_BUFFER_BIT);                                               
   if (timeLoc != -1) {
     const date = new Date();
     let t = date.getMinutes() * 60 +
@@ -107,8 +123,23 @@ export function render() {
             date.getMilliseconds() / 1000;
 
     gl.uniform1f(timeLoc, t);
+  } 
+  if (mxLoc != -1 && myLoc != -1){
+     console.log("e");
+  console.log("mx: " + mx);
+  console.log("my: " + my);
+    gl.uniform1f(mxLoc, mx);
+    gl.uniform1f(myLoc, my);
   }
+    
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 } // End of 'render' function
 
+export function setMousePos(x, y){
+  mx = x / 500.0 - 1.0;
+  my = y / 500.0 - 1.0;
+  console.log("e");
+  console.log("mx: " + mx);
+  console.log("my: " + my);
+}
 console.log("CGSG forever!!! mylib.js imported");

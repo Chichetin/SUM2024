@@ -1,61 +1,74 @@
-<!DOCTYPE html>
-<html >
-    <head>
-        <title> Мегазаготовка </title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="my.css" />
-        <meta name="google" content="notranslate"/>
-        <script type="text/javascript" src="output/mylib.js"></script>
-    </head>
+<!doctype html>
+<html>
+  <head>
+    <title>Мегазаготовка</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="my.css" />
+    <meta name="google" content="notranslate" />
+    <script type="text/javascript" src="output/mylib.js"></script>
+  </head>
 
-    <body> 
-        <h1> Первый заголовок</h1>
-        Пипипипипипи
-        <p style="color:blueviolet">
-        Армяне украли пару неспелых груш
-        </p>
-        <ul id="aboba" type="circle">
-            <li> Pervi </li>
-            <li> Vtoroi </li>
-            <li> Treti </li>
-            <li> 
-                <ol type="I">
-                    <li> mdeeee </li>
-                    <li> nu i delaaaa </li>
-                </ol>
-            </li>
-        </ul>
+  <body>
+    <h1>Первый заголовок</h1>
+    Пипипипипипи
+    <p style="color: blueviolet">Армяне украли пару неспелых груш</p>
+    <ul id="aboba" type="circle">
+      <li>Pervi</li>
+      <li>Vtoroi</li>
+      <li>Treti</li>
+      <li>
+        <ol type="I">
+          <li>mdeeee</li>
+          <li>nu i delaaaa</li>
+        </ol>
+      </li>
+    </ul>
 
-        <h1 id="aboba"> Второй заголовок; по спинке пробежались паучки с ребристыми ногами</h1>
-        <table style="color:blue" cellpadding="0px" cellspacing="5px" border="1px">
-            <tr><td rowspan="2" colspan="2"> <img src="muuu.png" width="50%" height="100px"> 1000&alpha; <td><img src="muuu.png" width="25%" height="12%"></tr>
-            <tr><td><img src="muuu.png" width="12%" height="6%"></tr>
-        </table>
-        <br>
-        <img src="muuu.png" width="25%" height="100px">
-        <img src="muuu.png" width="12%" height="100px">
-        <img src="muuu.png" width="6%" height="100px">
-        <br>
-        <textarea width="1000px">
+    <h1 id="aboba">
+      Второй заголовок; по спинке пробежались паучки с ребристыми ногами
+    </h1>
+    <table style="color: blue" cellpadding="0px" cellspacing="5px" border="1px">
+      <tr>
+        <td rowspan="2" colspan="2">
+          <img src="muuu.png" width="50%" height="100px" /> 1000&alpha;
+        </td>
+        <td><img src="muuu.png" width="25%" height="12%" /></td>
+      </tr>
+      <tr>
+        <td><img src="muuu.png" width="12%" height="6%" /></td>
+      </tr>
+    </table>
+    <br />
+    <img src="muuu.png" width="25%" height="100px" />
+    <img src="muuu.png" width="12%" height="100px" />
+    <img src="muuu.png" width="6%" height="100px" />
+    <br />
+    <textarea width="1000px">
             Itog;
-        </textarea>
-        <button onclick=f()>
-            Pipipi get back to reality
-        </button>
-        <canvas id="myCan" width="1002px" height="1002px" style="border: 1px solid red"></canvas> 
-        <script type="module">
-            import * as vigl from "./mylib.js";
+        </textarea
+    >
+    <button onclick="f()">Pipipi get back to reality</button>
+    <canvas
+      id="myCan"
+      width="1002px"
+      height="1002px"
+      style="border: 1px solid red"
+    ></canvas>
+    <script type="module">
+      import * as vigl from "./mylib.js";
 
-            window.addEventListener("load", () => {            
-                vigl.initGL();
-                const draw = () => {
-                    vigl.render();
+      window.addEventListener("load", () => {
+        vigl.initGL();
+        const draw = () => {
+          vigl.render();
 
-                    window.requestAnimationFrame(draw);
-                }
-                draw();
-            });
-        </script>
-
-    </body>
+          window.requestAnimationFrame(draw);
+        };
+        draw();
+      });
+      document.getElementById("myCan").addEventListener("mousemove", (e) => {
+        vigl.setMousePos(e.offsetX, e.offsetY);
+      });
+    </script>
+  </body>
 </html>
