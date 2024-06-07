@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="my.css" />
     <meta name="google" content="notranslate" />
     <script type="text/javascript" src="output/mylib.js"></script>
+    <script type="text/javascript" src="script.js"></script>
   </head>
 
   <body>
@@ -54,21 +55,7 @@
       height="1002px"
       style="border: 1px solid red"
     ></canvas>
-    <script type="module">
-      import * as vigl from "./mylib.js";
-
-      window.addEventListener("load", () => {
-        vigl.initGL();
-        const draw = () => {
-          vigl.render();
-
-          window.requestAnimationFrame(draw);
-        };
-        draw();
-      });
-      document.getElementById("myCan").addEventListener("mousemove", (e) => {
-        vigl.setMousePos(e.offsetX, e.offsetY);
-      });
-    </script>
+    <br />
+    <canvas id="glcanvas" width="500" height="500"></canvas>
   </body>
 </html>
