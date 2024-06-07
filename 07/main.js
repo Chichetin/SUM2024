@@ -1,18 +1,20 @@
 import { Pane } from "tweakpane/dist/tweakpane.js";
-
 import { f } from "./scripts/scripts.js";
+import { vec3 } from "./mth/vec3.js";
 let canvas,
   gl,
   timeLoc,
   mxLoc,
   myLoc,
-  mx = 0,
-  my = 0,
+  mx = 1,
+  my = 1,
   isLoupedLoc,
   isLouped = 0,
-  blk_loc;
+  R = 0.2,
+  upscale = 2.0;
 let frameBuffer;
-const frameUniformbufferIndex = 5;
+let frameData = [0, 0, 0, 0];
+const frameUniformBufferIndex = 5;
 
 // OpenGL initialization function
 export function initGL() {
@@ -54,27 +56,21 @@ export function initGL() {
   precision highp float;
   out vec4 OutColor;
   
-  in vec2 DrawPos;
-  uniform float Time;
-  uniform float mx, my;
-  uniform float isLouped;
-
-  uniform FrameBuffer
+ uniform FrameBuffer
   {
     vec4 Data;
   };
 
-  void main( void )
+  in vec2 DrawPos;
+  uniform float Time;
+  uniform float mx, my;
+  uniform float isLouped;
+ 
+  float Julia(float x, float y)
   {
-    float x = DrawPos.x ;
-    float y = DrawPos.y ;
-    float perx;
+  float perx;
     float n = 1.0;
-    if (isLouped == 0.0 && abs(DrawPos.x - mx) < 0.2 && abs(DrawPos.y - my) < 0.2)
-    {
-      x = mx + (x - mx) / 2.0;
-      y = my + (y - my) / 2.0;
-    }
+    
     while (sqrt(x * x + y * y) < 2.0 && n < 255.0)
     {
         perx = x * x - y * y + 0.37 + my * 0.10 * cos(Time * 0.6) * sin(Time * 0.2);
@@ -82,6 +78,42 @@ export function initGL() {
         x = perx;
         n = n + 1.0;
     }
+    
+    return n;
+  }
+
+  float Maldebrot(float x, float y)
+  {
+  float perx;
+    float n = 1.0;
+    float osx = x, osy = y;
+
+
+    while (sqrt(x * x + y * y) < 2.0 && n < 255.0)
+    {
+        perx = x * x - y * y + 0.37 + osx * 0.10 * cos(Time * 0.6) * sin(Time * 0.2);
+        y = 2.0 * x * y + 0.30 + osy * 0.8 * sin(Time * 0.4) * sin(Time * 0.5);
+        x = perx;
+        n = n + 1.0;
+    }
+    
+    return n;
+  }
+
+  void main( void )
+  {
+    float x = DrawPos.x;
+    float y = DrawPos.y;
+    float R = Data.x;
+    float upscale = Data.y;
+
+    if (isLouped == 0.0 && abs(DrawPos.x - mx) < R && abs(DrawPos.y - my) < R)
+    {
+      x = mx + (x - mx) / upscale;
+      y = my + (y - my) / upscale;
+    }
+    
+    float n = Maldebrot(x, y);
     OutColor = vec4(n / 255.0, n / 100.0 , n / 155.0 , 1);
   }
   `;
@@ -128,8 +160,10 @@ export function initGL() {
   mxLoc = gl.getUniformLocation(prg, "mx");
   myLoc = gl.getUniformLocation(prg, "my");
   isLoupedLoc = gl.getUniformLocation(prg, "isLouped");
-  // UBO
 
+  // UBO
+  frameData[0] = R;
+  frameData[1] = upscale;
   frameBuffer = gl.createBuffer();
   gl.bindBuffer(gl.UNIFORM_BUFFER, frameBuffer);
   gl.bufferData(gl.UNIFORM_BUFFER, 4 * 4, gl.STATIC_DRAW);
@@ -140,7 +174,7 @@ export function initGL() {
   gl.uniformBlockBinding(
     prg,
     gl.getUniformBlockIndex(prg, "FrameBuffer"),
-    frameUniformbufferIndex,
+    frameUniformBufferIndex,
   );
 } // End of 'initGL' function
 
@@ -162,6 +196,12 @@ let x = 1;
 export function render() {
   // console.log(`Frame ${x++}`);
   gl.clear(gl.COLOR_BUFFER_BIT);
+
+  //Setup frame buffer data
+  gl.bindBuffer(gl.UNIFORM_BUFFER, frameBuffer);
+  gl.bufferData(gl.UNIFORM_BUFFER, new Float32Array(frameData), gl.STATIC_DRAW);
+  gl.bindBufferBase(gl.UNIFORM_BUFFER, frameUniformBufferIndex, frameBuffer);
+
   if (timeLoc != -1) {
     const date = new Date();
     let t =
@@ -191,9 +231,30 @@ window.addEventListener("load", () => {
     setMousePos(e.offsetX, e.offsetY);
   });
   window.addEventListener("keydown", (e) => {
-    if (e.key == " ") {
-      e.preventDefault();
-      isLouped = 1.0 - isLouped;
+    switch (e.key) {
+      case " ":
+        e.preventDefault();
+        isLouped = 1.0 - isLouped;
+        break;
+
+      case "l":
+        R *= 1.1;
+        frameData[0] = R;
+        break;
+
+      case "j":
+        R = Math.max(0.1, R * 0.91);
+        frameData[0] = R;
+        break;
+
+      case "i":
+        upscale *= 1.1;
+        frameData[1] = upscale;
+        break;
+      case "k":
+        upscale = Math.max(upscale * 0.91, 0.1);
+        frameData[1] = upscale;
+        break;
     }
   });
 
