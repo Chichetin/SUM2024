@@ -1,0 +1,17 @@
+h1{
+    color: burlywood;
+}
+#aboba{
+    color: brown;
+    background-color: aquamarine;
+}
+
+img{
+    border-radius: 100px;
+}
+
+img:hover{
+    border-radius: 5px;
+    border-color: chartreuse;
+    lighting-color: chartreuse;
+}
