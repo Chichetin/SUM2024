@@ -11,7 +11,7 @@ let canvas,
   isLoupedLoc,
   isLouped = 0,
   R = 0.2,
-  upscale = 2.0;
+  upscale = 1.0;
 let frameBuffer;
 let frameData = [0, 0, 0, 0];
 const frameUniformBufferIndex = 5;
@@ -107,8 +107,8 @@ export function initGL() {
     float R = Data.x;
     float upscale = Data.y;
 
-    if (isLouped == 0.0 && abs(DrawPos.x - mx) < R && abs(DrawPos.y - my) < R)
-    {
+    //if (isLouped == 0.0 && abs(DrawPos.x - mx) < R && abs(DrawPos.y - my) < R)
+    if (isLouped == 0.0 && (DrawPos.x - mx) * (DrawPos.x - mx) + (DrawPos.y - my) * (DrawPos.y - my) < R){
       x = mx + (x - mx) / upscale;
       y = my + (y - my) / upscale;
     }
