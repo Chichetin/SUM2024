@@ -1,0 +1,12 @@
+{
+  "main": "index.js",
+  "dependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "http-server": "^14.1.1",
+    "prettier": "^3.3.1",
+    "rollup": "^4.18.0",
+    "stdin": "^0.0.1",
+    "tweakpane": "^4.0.3"
+  },
+  "type": "module"
+}

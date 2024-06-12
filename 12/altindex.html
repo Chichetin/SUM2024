@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="google" content="notranslate" />
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="M.BMP" />
+    <title>CGSG: DK6 Summer practice 2024</title>
+    <script src="./output/main.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- <p id="myCan:fps"></p> -->
+    <canvas
+      id="Figure"
+      width="500px"
+      height="500px"
+      style="border: 2px solid rgb(43, 139, 87)"
+    ></canvas>
+    <br />
+    <form>
+      <fieldset id="field" class="field">
+        Select a Plato figure:
+
+        <div>
+          <input
+            type="radio"
+            id="tetra"
+            name="figureChoose"
+            value="tetra"
+            checked
+          />
+          <label for="tetra">Tetrahedron</label>
+        </div>
+
+        <div>
+          <input type="radio" id="octa" name="figureChoose" value="octa" />
+          <label for="octa">Octahedron</label>
+        </div>
+
+        <div>
+          <input type="radio" id="cube" name="figureChoose" value="cube" />
+          <label for="cube">Cube</label>
+        </div>
+
+        <div>
+          <input type="radio" id="dode" name="figureChoose" value="dode" />
+          <label for="dode">Dodecahedron</label>
+        </div>
+
+        <div>
+          <input type="radio" id="ico" name="figureChoose" value="ico" />
+          <label for="ico">Icosahedron</label>
+        </div>
+      </fieldset>
+    </form>
+  </body>
+</html>

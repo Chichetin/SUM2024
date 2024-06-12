@@ -1,8 +1,6 @@
 import { Pane } from "tweakpane/dist/tweakpane.js";
 import { f } from "./scripts/scripts.js";
-import { vec3, mat4 } from "./mth/def.js";
-
-
+import { vec3 } from "./mth/vec3.js";
 let canvas,
   gl,
   timeLoc,
