@@ -41,6 +41,8 @@ const server = http.createServer(app);
 
 const wss = new WebSocketServer({ server });
 
+wsArray = [];
+
 wss.on("connection", (ws) => {
   ws.on("message", (message) => {
     console.log(message.toString());
