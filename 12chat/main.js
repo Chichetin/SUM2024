@@ -41,14 +41,57 @@ const server = http.createServer(app);
 
 const wss = new WebSocketServer({ server });
 
-wsArray = [];
+let wsArray = [];
+let messages = `<p class="pdiv" style="float:left"><b>Petya</b><br/>ShortMessage</p>`;
 
 wss.on("connection", (ws) => {
+  wsArray.push(ws);
+
+  let begSend = {
+    text: messages,
+    type: "message",
+  };
+  ws.send(JSON.stringify(begSend));
+
   ws.on("message", (message) => {
-    console.log(message.toString());
-    ws.send(`Hello, you send me message ${message}`);
+    let convMess = JSON.parse(message.toString());
+    if (convMess["type"] == "mess") {
+      if (convMess["user"] == "admin" && convMess["text"] == "clear") {
+        messages = [];
+      } else
+        messages =
+          messages +
+          `<br><p class="pdiv" style="float:left"><b>${convMess["user"]}</b><br/>${convMess["text"]}</p>`;
+
+      let send = {
+        text: messages,
+        type: "message",
+      };
+      for (let sock of wsArray) {
+        sock.send(JSON.stringify(send));
+      }
+    } else if (convMess["type"] == "userIsWriting") {
+      let send = {
+        text: convMess["name"],
+        type: "userIsWriting",
+      };
+
+      for (let sock of wsArray) {
+        if (sock == ws) continue;
+        sock.send(JSON.stringify(send));
+      }
+    } else if (convMess["type"] == "endUserIsWriting") {
+      let send = {
+        text: "",
+        type: "endUserIsWriting",
+      };
+
+      for (let sock of wsArray) {
+        if (sock == ws) continue;
+        sock.send(JSON.stringify(send));
+      }
+    }
   });
-  ws.send("Hello");
 });
 
 const host = "localhost";
