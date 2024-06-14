@@ -56,7 +56,7 @@ wss.on("connection", (ws) => {
   ws.on("message", (message) => {
     let convMess = JSON.parse(message.toString());
     if (convMess["type"] == "mess") {
-      if (convMess["user"] == "admin" && convMess["text"] == "clear") {
+      if (/*convMess["user"] == "admin" && */ convMess["text"] == "clear") {
         messages = [];
       } else
         messages =

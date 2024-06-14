@@ -19,8 +19,8 @@ function initiaizeCommunication() {
   socket = new WebSocket("ws://localhost:8008");
 
   socket.onopen = (event) => {
-    document.getElementById("message").addEventListener("focusin", () => {
-      let user = document.getElementById("user").value;
+    $("#message").on("focusin", () => {
+      let user = $("#user").val();
       if (user == "") user = "anonymos";
       let message = {
         name: user,
@@ -29,7 +29,7 @@ function initiaizeCommunication() {
       socket.send(JSON.stringify(message));
     });
 
-    document.getElementById("message").addEventListener("focusout", () => {
+    $("#message").on("focusout", () => {
       let message = {
         name: "",
         type: "endUserIsWriting",
@@ -37,25 +37,26 @@ function initiaizeCommunication() {
       socket.send(JSON.stringify(message));
     });
 
-    document.getElementById("send").addEventListener("click", () => {
+    $("#send").on("click", () => {
       console.log("aboba");
       let message = {
-        user: document.getElementById("user").value,
-        text: document.getElementById("message").value,
+        user: $("#user").val(),
+        text: $("#message").val(),
         type: "mess",
       };
       if (message["user"] == "") message["user"] = "anonymos";
-      if (message["text"] == "") alert("Пожалуйста, напишите ваше сообщение");
-      else {
-        console.log(message);
-        socket.send(JSON.stringify(message));
-      }
+      if (message["text"] == "") message["text"] = "default";
+      // alert("Пожалуйста, напишите ваше сообщение");
+      //else {
+      socket.send(JSON.stringify(message));
+      //}
     });
 
     console.log("Socket open");
   };
 
   let div = document.getElementById("text");
+
   socket.onmessage = (event) => {
     let info = JSON.parse(event.data.toString());
     if (info["type"] == "message") {
