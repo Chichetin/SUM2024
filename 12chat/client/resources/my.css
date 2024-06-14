@@ -104,6 +104,28 @@ div {
   -webkit-user-select: none;
   touch-action: manipulation;
   width: 80%;
+  word-wrap: break-word;
+}
+
+.writerName {
+  background-color: #bae28d;
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+  box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+    rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
+    rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
+    rgba(44, 187, 99, 0.15) 0 16px 32px;
+  color: rgb(236, 18, 18);
+  font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
+  padding: 3px 30%;
+  text-align: center;
+  text-decoration: none;
+  border: 4px;
+  font-size: 18px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  word-wrap: break-word;
 }
 
 div::-webkit-scrollbar-track {
