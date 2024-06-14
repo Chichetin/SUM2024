@@ -67,6 +67,7 @@ wss.on("connection", (ws) => {
         messages.push({
           name: convMess["user"],
           text: convMess["text"],
+          idRepl: convMess["id"],
         });
       let send = {
         mess: messages[messages.length - 1],
