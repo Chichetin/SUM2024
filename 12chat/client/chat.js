@@ -127,6 +127,7 @@ function initiaizeCommunication() {
           ": " +
           $("#" + getId).children()[2].textContent
         }</a>`;
+
         msg.appendChild(repl);
       }
 
